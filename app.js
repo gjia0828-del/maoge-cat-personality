@@ -34,16 +34,7 @@ const CHAPTERS = [
           { text: '完全不需要，独处很爽', score: 0 }
         ]
       },
-      {
-        title: '在意的人忙了一整天没回你消息。你会？',
-        aside: '对方没有提前说自己在忙。',
-        options: [
-          { text: '反复看手机，想再发一句', score: 5 },
-          { text: '会有点失落，但先等着', score: 3 },
-          { text: '去忙自己的事', score: 1 },
-          { text: '不回就不回', score: 0 }
-        ]
-      },
+
       {
         title: '睡觉时你更喜欢？',
         aside: '没有标准睡姿，选最像你的。',
@@ -82,16 +73,7 @@ const CHAPTERS = [
           { text: '立刻发火', score: 0 }
         ]
       },
-      {
-        title: '遇到一件很无语的事，你通常会？',
-        aside: '事情已经发生，改变不了结果。',
-        options: [
-          { text: '吐槽两句就过去', score: 5 },
-          { text: '先冷静一下，再处理', score: 4 },
-          { text: '会自己生闷气', score: 2 },
-          { text: '会反复想很久', score: 0 }
-        ]
-      },
+
       {
         title: '情绪上来的时候，你通常？',
         aside: '没有人要求你立刻冷静。',
@@ -140,16 +122,7 @@ const CHAPTERS = [
           { text: '只想消失', score: 0 }
         ]
       },
-      {
-        title: '你更喜欢哪一种关系状态？',
-        aside: '不需要考虑现实条件。',
-        options: [
-          { text: '热闹的一群朋友', score: 5 },
-          { text: '几个经常联系的人', score: 3 },
-          { text: '一两个很深的人', score: 1 },
-          { text: '独处最舒服', score: 0 }
-        ]
-      }
+
     ]
   },
   {
@@ -178,16 +151,7 @@ const CHAPTERS = [
           { text: '硬着头皮回答', score: 0 }
         ]
       },
-      {
-        title: '有人对你说“你应该这样做”。你会？',
-        aside: '对方是真心给建议。',
-        options: [
-          { text: '谢谢，但我还是按自己的来', score: 5 },
-          { text: '听一半，自己再判断', score: 3 },
-          { text: '会受一点影响', score: 1 },
-          { text: '很容易照着做', score: 0 }
-        ]
-      },
+
       {
         title: '私人时间被临时占用。你会？',
         aside: '对方希望你现在就答应。',
@@ -226,16 +190,7 @@ const CHAPTERS = [
           { text: '坚决不去', score: 0 }
         ]
       },
-      {
-        title: '无聊的时候，你通常会？',
-        aside: '没有待办事项，也没有人催你。',
-        options: [
-          { text: '主动找点新鲜事做', score: 5 },
-          { text: '找人一起玩', score: 4 },
-          { text: '刷手机混过去', score: 2 },
-          { text: '继续躺着', score: 0 }
-        ]
-      },
+
       {
         title: '别人跟你开玩笑或整蛊。你会？',
         aside: '没有恶意，只是想逗你。',
@@ -284,16 +239,7 @@ const CHAPTERS = [
           { text: '完全不在意', score: 0 }
         ]
       },
-      {
-        title: '你更容易注意到什么？',
-        aside: '在一个普通的聊天场景里。',
-        options: [
-          { text: '气氛里的细小变化', score: 5 },
-          { text: '对方的表情和语气', score: 4 },
-          { text: '明显的变化', score: 2 },
-          { text: '一般不太注意', score: 0 }
-        ]
-      }
+
     ]
   }
 ];
@@ -481,7 +427,7 @@ const PERSONAS = [
   }
 ];
 
-const STORAGE_KEY = 'maoge_state_v1';
+const STORAGE_KEY = 'maoge_state_v2';
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const refs = {
@@ -492,7 +438,7 @@ const refs = {
   questionTitle: $('#questionTitle'), questionAside: $('#questionAside'), optionsGrid: $('#optionsGrid'), toast: $('#toast')
 };
 
-let state = { answers: Array(24).fill(null), current: 0 };
+let state = { answers: Array(18).fill(null), current: 0 };
 let activeScreen = 'landing';
 let activePersona = null;
 let activeScores = null;
@@ -547,9 +493,9 @@ function catArtSVG(art) {
 function safeLoadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
-    if (saved && Array.isArray(saved.answers) && saved.answers.length === 24) {
+    if (saved && Array.isArray(saved.answers) && saved.answers.length === 18) {
       state.answers = saved.answers;
-      state.current = Math.min(Math.max(Number(saved.current) || 0, 0), 24);
+      state.current = Math.min(Math.max(Number(saved.current) || 0, 0), 18);
     }
   } catch (error) { localStorage.removeItem(STORAGE_KEY); }
 }
@@ -559,7 +505,7 @@ function saveState() {
 function hasProgress() { return state.answers.some(answer => answer !== null); }
 function updateResumeButton() {
   refs.resumeButton.hidden = !hasProgress();
-  refs.resumeButton.textContent = state.current >= 24 ? '查看上次结果' : '继续上次测试';
+  refs.resumeButton.textContent = state.current >= 18 ? '查看上次结果' : '继续上次测试';
 }
 function setScreen(name) {
   activeScreen = name;
@@ -570,11 +516,11 @@ function setScreen(name) {
   refs.header.classList.toggle('on-inner', name !== 'landing');
   window.scrollTo(0, 0);
 }
-function getChapterAndQuestion(index) { return { chapterIndex: Math.floor(index / 4), questionIndex: index % 4 }; }
-function getGlobalIndex(chapterIndex, questionIndex) { return chapterIndex * 4 + questionIndex; }
+function getChapterAndQuestion(index) { return { chapterIndex: Math.floor(index / 3), questionIndex: index % 3 }; }
+function getGlobalIndex(chapterIndex, questionIndex) { return chapterIndex * 3 + questionIndex; }
 
 function startNewTest() {
-  state.answers = Array(24).fill(null);
+  state.answers = Array(18).fill(null);
   state.current = 0;
   saveState();
   updateResumeButton();
@@ -594,7 +540,7 @@ function seededShuffle(length, seed) {
 }
 
 function renderQuestion() {
-  if (state.current >= 24) { showResult(computeScores(state.answers)); return; }
+  if (state.current >= 18) { showResult(computeScores(state.answers)); return; }
   const { chapterIndex, questionIndex } = getChapterAndQuestion(state.current);
   const chapter = CHAPTERS[chapterIndex];
   const question = chapter.questions[questionIndex];
@@ -608,11 +554,11 @@ function renderQuestion() {
   refs.questionIndex.textContent = `SCENE ${String(state.current + 1).padStart(2, '0')} · ${chapter.kicker}`;
   refs.questionTitle.textContent = question.title;
   refs.questionAside.textContent = question.aside || '';
-  refs.progressBar.style.width = `${((state.current + 1) / 24) * 100}%`;
+  refs.progressBar.style.width = `${((state.current + 1) / 18) * 100}%`;
   refs.backButton.disabled = state.current === 0;
 
   refs.chapterStamps.innerHTML = CHAPTERS.map((item, index) => {
-    const done = index < chapterIndex || (index === chapterIndex && questionIndex === 3 && state.answers[getGlobalIndex(index, 3)] !== null);
+    const done = index < chapterIndex || (index === chapterIndex && questionIndex === 2 && state.answers[getGlobalIndex(index, 2)] !== null);
     const current = index === chapterIndex;
     return `<span class="chapter-stamp ${done ? 'done' : ''} ${current ? 'current' : ''}" title="${item.title}">${String(index + 1).padStart(2, '0')}</span>`;
   }).join('');
@@ -641,7 +587,7 @@ function chooseOption(optionIndex) {
     refs.questionCard.classList.add('swap-out');
     window.setTimeout(() => {
       refs.questionCard.classList.remove('swap-out');
-      if (state.current >= 24) showResult(computeScores(state.answers)); else renderQuestion();
+      if (state.current >= 18) showResult(computeScores(state.answers)); else renderQuestion();
     }, 170);
   }, 170);
 }
@@ -760,7 +706,7 @@ function showToast(message) {
 }
 
 function goHome() { setScreen('landing'); updateResumeButton(); }
-function resume() { if (state.current >= 24) showResult(computeScores(state.answers)); else { setScreen('test'); renderQuestion(); } }
+function resume() { if (state.current >= 18) showResult(computeScores(state.answers)); else { setScreen('test'); renderQuestion(); } }
 function restart() { localStorage.removeItem(STORAGE_KEY); startNewTest(); }
 
 function drawCatFace(ctx, art, cx, cy, size) {
@@ -876,7 +822,7 @@ function downloadShareCard() {
   ctx.fillStyle = '#211c18'; ctx.font = '500 34px "Songti SC", serif';
   wrapCanvasText(ctx, activePersona.quote, 72, 1142, 880, 48, 2);
 
-  ctx.fillStyle = '#95877a'; ctx.font = '500 13px "SF Mono", monospace'; ctx.fillText('24 个日常瞬间 · 测出你的脾气品种', 72, 1360);
+  ctx.fillStyle = '#95877a'; ctx.font = '500 13px "SF Mono", monospace'; ctx.fillText('18 个日常瞬间 · 测出你的脾气品种', 72, 1360);
   ctx.textAlign = 'right'; ctx.fillText('MAOGE / INNER CAT', 1008, 1360);
 
   const link = document.createElement('a');
