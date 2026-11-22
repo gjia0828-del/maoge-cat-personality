@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f7efe3" />
+  <meta name="description" content="猫格：24 道日常题，测一测你的脾气是什么品种的猫。" />
+  <title>猫格 · 你的脾气是什么品种的猫</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="paper-grain" aria-hidden="true"></div>
+  <header class="site-header" id="siteHeader">
+    <button class="brand" data-action="home" aria-label="返回首页">
+      <span class="brand-paw" aria-hidden="true">🐾</span>
+      <span class="brand-name">猫格</span>
+      <small>CAT TEMPERAMENT</small>
+    </button>
+    <div class="header-tag"><span>24 SCENES</span><span>12 BREEDS</span></div>
+  </header>
+
+  <main>
+    <section class="screen landing-screen is-active" id="landingScreen" aria-labelledby="heroTitle">
+      <div class="landing-copy">
+        <div class="eyebrow">A TEST FOR YOUR INNER CAT</div>
+        <h1 class="hero-title" id="heroTitle">
+          <span>测一测你的脾气</span>
+          <span>是什么<strong>品种的猫</strong></span>
+        </h1>
+        <p class="hero-lead">24 个日常瞬间，看看你到底是黏人布偶、稳定英短，还是随机发疯奶牛猫。</p>
+        <div class="hero-actions">
+          <button class="primary-button" data-action="start">开始测我的猫脾气 <span>↗</span></button>
+          <button class="resume-button" id="resumeButton" data-action="resume" hidden>继续上次测试</button>
+        </div>
+        <div class="hero-facts"><span>6 个猫格维度</span><span>24 道情景题</span><span>约 3 分钟</span></div>
+        <p class="disclaimer">娱乐向猫格测试 · 不是心理学诊断</p>
+      </div>
+
+      <div class="cat-stage" aria-hidden="true">
+        <div class="sun-disc"></div>
+        <div class="blue-swipe"></div>
+        <div class="cat-poster">
+          <div class="poster-top"><span>CAT FILE</span><span>NO. 08</span></div>
+          <div class="hero-cat" id="heroCat"></div>
+          <div class="poster-bottom"><span>脾气不明</span><strong>但很可爱</strong></div>
+        </div>
+        <div class="sticker sticker-a">今日<br />猫德</div>
+        <div class="sticker sticker-b">PAW<br />APPROVED</div>
+        <div class="scribble">别看我，<br />看答案。</div>
+        <div class="paw paw-a">🐾</div>
+        <div class="paw paw-b">🐾</div>
+      </div>
+
+      <div class="landing-footer"><span>YOUR TEMPER, BUT FLUFFIER.</span><span>向下开始测猫格 ↓</span></div>
+    </section>
+
+    <section class="screen test-screen" id="testScreen" aria-live="polite">
+      <div class="test-shell">
+        <div class="test-topbar">
+          <button class="icon-button" id="backButton" data-action="back" aria-label="上一题">←</button>
+          <div class="progress-copy"><span id="chapterKicker">MEOW 01 / 06</span><strong id="chapterTitle">被摸的时候</strong></div>
+          <div class="question-count"><strong id="questionNumber">01</strong><span>/ 24</span></div>
+        </div>
+        <div class="progress-track"><span id="progressBar"></span></div>
+        <div class="chapter-stamps" id="chapterStamps"></div>
+
+        <article class="question-card" id="questionCard">
+          <div class="question-meta"><span id="questionIndex">SCENE 01</span><span>选第一反应就好</span></div>
+          <h2 class="question-title" id="questionTitle"></h2>
+          <p class="question-aside" id="questionAside"></p>
+          <div class="options-grid" id="optionsGrid"></div>
+          <div class="question-footnote"><span>✦</span><span>没有标准猫德，只有更像你的那一下。</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="screen result-screen" id="resultScreen" aria-live="polite">
+      <div class="result-hero">
+        <div class="result-copy">
+          <div class="result-topline"><span id="personaCode">CAT FILE / NO. 04</span><span>YOUR INNER CAT</span></div>
+          <span class="result-kicker" id="resultKicker">玩心 × 情绪稳定</span>
+          <h1 id="personaName">橘猫</h1>
+          <p class="persona-title" id="personaTitle">快乐饭桶本桶</p>
+          <p class="persona-tagline" id="personaTagline">天大的事，吃完再说。</p>
+          <p class="persona-description" id="personaDescription"></p>
+          <div class="persona-keywords" id="personaKeywords"></div>
+        </div>
+        <div class="result-cat-wrap"><div class="result-cat" id="resultCat"></div><div class="result-seal">猫格<br /><small>APPROVED</small></div></div>
+      </div>
+
+      <div class="result-body">
+        <section class="result-panel radar-panel">
+          <div class="section-heading"><span class="section-no">01</span><div><small>YOUR CAT DNA</small><h2>你的六维猫格</h2></div></div>
+          <div class="radar-wrap" id="resultRadar"></div>
+          <p class="radar-insight" id="radarInsight"></p>
+        </section>
+
+        <section class="result-panel quote-panel"><span class="section-no">02 / CAT WORDS</span><blockquote id="personaQuote"></blockquote><p id="personaInsight"></p></section>
+
+        <section class="share-panel">
+          <div class="share-copy"><span class="section-no">03 / SHARE YOUR CAT</span><h2>把你的猫格<br />发出去。</h2><p>保存一张猫格档案卡，或者复制一段发出去。</p><div class="share-actions"><button class="primary-button" data-action="download">保存猫格卡片 ↓</button><button class="outline-button" data-action="copy">复制分享文案</button></div><span class="share-note">1080 × 1440 · 适合小红书 / 朋友圈</span></div>
+          <div class="share-preview-wrap"><div class="share-preview"><div class="preview-top"><span>猫格档案</span><span id="previewCode">NO. 04</span></div><div class="preview-cat" id="previewCat"></div><div class="preview-name" id="previewName">橘猫</div><div class="preview-title" id="previewTitle">快乐饭桶本桶</div><div class="preview-radar" id="previewRadar"></div><div class="preview-footer">24 个日常瞬间 · 测出你的脾气品种</div></div></div>
+        </section>
+
+        <div class="result-footer-actions"><button class="outline-button" data-action="restart">再测一次</button><button class="text-button" data-action="home">返回首页 ↗</button></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
